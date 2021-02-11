@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <!-- <script src="./d3.js"></script> -->
+    <title>D3.js Tutorial</title>
+  </head>
+  <body>
+    <script>
+      (async function () {
+        var canvas = d3
+          .select('body')
+          .append('svg')
+          .attr('width', 500)
+          .attr('height', 500);
+        var data_final = [];
+
+        await d3.csv('data/data.csv', function (data) {
+          data_final.push(data);
+        });
+
+        canvas
+          .selectAll('rect')
+          .data(data_final)
+          .enter()
+          .append('rect')
+          .attr('width', function (d) {
+            return d.age * 10;
+          })
+          .attr('height', 50)
+          .attr('y', function (d, i) {
+            return i * 60;
+          })
+          .attr('fill', 'blue');
+
+        canvas
+          .selectAll('text')
+          .data(data_final)
+          .enter()
+          .append('text')
+          .attr('fill', 'white')
+          .attr('y', function (d, i) {
+            return i * 60 - 15;
+          })
+          .text(function (d) {
+            return d.name;
+          });
+      })();
+    </script>
+  </body>
+</html>
